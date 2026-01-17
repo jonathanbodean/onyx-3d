@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head> <title>Webviewer</title> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script>
+function addIFrame() { // Frame is embedded using this script function
+  window.addEventListener("message", eventFromWebviewer);
+
+  var viewerLink = 'https:///Viewer/main.html';
+  var viewerData = window.location.search;
+  var iframe     = document.createElement('iframe');
+
+  iframe.setAttribute('name', 'OnyxCephWebGL');
+  iframe.setAttribute('style', 'position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:1;');
+  iframe.setAttribute('src', viewerLink+viewerData);
+  document.body.appendChild(iframe);
+}
+
+function eventFromWebviewer(event) { // handle events from the viewer for individualization
+  var eventObj = JSON.parse(event.data);
+  if(eventObj !== null && eventObj.type === "LOADING" && eventObj.value === "finished") {
+
+    // Example for changing all the step icons to smaller icons (i.e. smaller numbers)
+    // for(var i=0; i<300; i++) // Tiny numbers (bottom aligned)
+    //   window.frames.OnyxCephWebGL.postMessage('{"type":"REPLACE_ICON","id":"aniMarkerBtn' + i + '", "part":"viewBox", "value":"-20 -30 64 64"}', '*');
+
+    // Play to beginning if you like this more:
+    // window.frames.OnyxCephWebGL.postMessage('{"type":"PLAY_TO","key":"0"}', '*'); // Plan to specific key "0", "1", ... or "first" or "last"
+
+    // Find more examples on https://www.onyxwiki.net/doku.php?id=en:function_webexport
+  }
+}
+</script>
+</head>
+<body onload="addIFrame()">
+  <img src="MyLogo.png" style="position:absolute;top:0;left:0;z-index:2">
+  <!-- the iframe is inserted here -->
+</body>
+</html>
